@@ -17,7 +17,10 @@ void Main()
             RunBenckmark();
             break;
         case "2":
-            RunMeasure();
+            Console.Write("Num of iterations? ");
+            int iterations;
+            int.TryParse(Console.ReadLine(), out iterations);
+            RunMeasure(iterations);
             break;
         case "3":
             CreateData();
@@ -34,62 +37,64 @@ void RunBenckmark()
     BenchmarkRunner.Run<BenchmarkEfvsDapperRunner>();
 }
 
-void RunMeasure() 
+void RunMeasure(int iterations) 
 {
     MeasureRunner runner = new();
-
     Random rnd = new();
 
+    if (iterations <= 0)
+        iterations++;
+
     Console.WriteLine("----GetPlayerById_EF----");
-    for (int i = 1; i <= 101; i++)
+    for (int i = 1; i <= iterations; i++)
     {
         runner.GetPlayerById(rnd.Next(1, 101));
     }
     Console.WriteLine();
     Console.WriteLine("----GetPlayerById_EF_NoTracking----");
-    for (int i = 1; i <= 101; i++)
+    for (int i = 1; i <= iterations; i++)
     {
         runner.GetPlayerById_NoTracking(rnd.Next(1, 101));
     }
     Console.WriteLine();
     Console.WriteLine("----GetPlayerById_Dapper----");
-    for (int i = 1; i <= 101; i++)
+    for (int i = 1; i <= iterations; i++)
     {
         runner.GetPlayerById_Dapper(rnd.Next(1, 101));
     }
     Console.WriteLine();
     Console.WriteLine("----GetPlayersByTeamId_EF----");
-    for (int i = 1; i <= 101; i++)
+    for (int i = 1; i <= iterations; i++)
     {
         runner.GetPlayersByTeamId(rnd.Next(1, 101));
     }
     Console.WriteLine();
     Console.WriteLine("----GetPlayersByTeamId_EF_NoTracking----");
-    for (int i = 1; i <= 101; i++)
+    for (int i = 1; i <= iterations; i++)
     {
         runner.GetPlayersByTeamId_NoTracking(rnd.Next(1, 101));
     }
     Console.WriteLine();
     Console.WriteLine("----GetPlayersByTeamId_Dapper----");
-    for (int i = 1; i <= 101; i++)
+    for (int i = 1; i <= iterations; i++)
     {
         runner.GetPlayersByTeamId_Dapper(rnd.Next(1, 101));
     }
     Console.WriteLine();
     Console.WriteLine("----GetTeamPlayersForSport_EF----");
-    for (int i = 1; i <= 101; i++)
+    for (int i = 1; i <= iterations; i++)
     {
         runner.GetTeamPlayersForSport(rnd.Next(1, 101));
     }
     Console.WriteLine();
     Console.WriteLine("----GetTeamPlayersForSport_EF_NoTracking----");
-    for (int i = 1; i <= 101; i++)
+    for (int i = 1; i <= iterations; i++)
     {
         runner.GetTeamPlayersForSport_NoTracking(rnd.Next(1, 101));
     }
     Console.WriteLine();
     Console.WriteLine("----GetTeamPlayersForSport_Dapper----");
-    for (int i = 1; i <= 101; i++)
+    for (int i = 1; i <= iterations; i++)
     {
         runner.GetTeamPlayersForSport_Dapper(rnd.Next(1, 101));
     }

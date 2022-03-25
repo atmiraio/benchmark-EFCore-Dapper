@@ -1,5 +1,4 @@
-﻿using BenchmarkDotNet.Attributes;
-using Dapper;
+﻿using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,7 +30,7 @@ namespace BenchmarkEFCoreDapper
 
             var result = context.Players.FirstOrDefault(p => p.Id == id);
             watch.Stop();
-            Console.WriteLine(watch.ElapsedTicks);
+            Console.WriteLine((double)watch.ElapsedTicks / Stopwatch.Frequency * 1000);
         }
 
         public void GetPlayerById_NoTracking(int id)
@@ -43,7 +42,7 @@ namespace BenchmarkEFCoreDapper
 
             var result = context.Players.AsNoTracking().FirstOrDefault(p => p.Id == id);
             watch.Stop();
-            Console.WriteLine(watch.ElapsedTicks);
+            Console.WriteLine((double)watch.ElapsedTicks / Stopwatch.Frequency * 1000);
         }
 
 
@@ -56,7 +55,7 @@ namespace BenchmarkEFCoreDapper
                 var result = conn.QuerySingle<Player>("SELECT Id, FirstName, LastName, DateOfBirth, TeamId FROM Players WHERE Id = @ID", new { ID = id });
             }
             watch.Stop();
-            Console.WriteLine(watch.ElapsedTicks);
+            Console.WriteLine((double)watch.ElapsedTicks / Stopwatch.Frequency * 1000);
         }
 
         public void GetPlayersByTeamId(int id)
@@ -68,7 +67,7 @@ namespace BenchmarkEFCoreDapper
 
             var result = context.Teams.Include(x => x.Players).Single(x => x.Id == id);
             watch.Stop();
-            Console.WriteLine(watch.ElapsedTicks);
+            Console.WriteLine((double)watch.ElapsedTicks / Stopwatch.Frequency * 1000);
         }
 
         public void GetPlayersByTeamId_NoTracking(int id)
@@ -80,7 +79,7 @@ namespace BenchmarkEFCoreDapper
 
             var result = context.Teams.Include(x => x.Players).AsNoTracking().Single(x => x.Id == id);
             watch.Stop();
-            Console.WriteLine(watch.ElapsedTicks);
+            Console.WriteLine((double)watch.ElapsedTicks / Stopwatch.Frequency * 1000);
         }
 
         public void GetPlayersByTeamId_Dapper(int id)
@@ -116,7 +115,7 @@ namespace BenchmarkEFCoreDapper
                 param: new { ID = id });
             }
             watch.Stop();
-            Console.WriteLine(watch.ElapsedTicks);
+            Console.WriteLine((double)watch.ElapsedTicks / Stopwatch.Frequency * 1000);
         }
 
         public void GetTeamPlayersForSport(int id)
@@ -128,7 +127,7 @@ namespace BenchmarkEFCoreDapper
 
             var result = context.Teams.Include(x => x.Players).Where(x => x.SportId == id).ToList();
             watch.Stop();
-            Console.WriteLine(watch.ElapsedTicks);
+            Console.WriteLine((double)watch.ElapsedTicks / Stopwatch.Frequency * 1000);
         }
 
         public void GetTeamPlayersForSport_NoTracking(int id)
@@ -140,7 +139,7 @@ namespace BenchmarkEFCoreDapper
 
             var result = context.Teams.Include(x => x.Players).AsNoTracking().Where(x => x.SportId == id).ToList();
             watch.Stop();
-            Console.WriteLine(watch.ElapsedTicks);
+            Console.WriteLine((double)watch.ElapsedTicks / Stopwatch.Frequency * 1000);
         }
 
         public void GetTeamPlayersForSport_Dapper(int id)
@@ -161,7 +160,7 @@ namespace BenchmarkEFCoreDapper
                 }
             }
             watch.Stop();
-            Console.WriteLine(watch.ElapsedTicks);
+            Console.WriteLine((double)watch.ElapsedTicks / Stopwatch.Frequency * 1000);
         }
     }
 }
